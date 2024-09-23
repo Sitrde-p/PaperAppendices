@@ -39,8 +39,7 @@ if ~isempty(all_weights)
     weight = sum(weighted_matrix, 1);
 end
 
-%计算私有权重结果
-SNN_K=5:30;
+K=5:30;
 
 %计算全局权重结果
 updated_data2 = [];     % Initialize z as an empty matrix
@@ -50,11 +49,11 @@ for i = 1:n1
 end
 
 dist=squareform(pdist(updated_data2));
-for p=1:length(SNN_K)
+for p=1:length(K)
   %If you want to choose centers manually, set AutoPick to 0, otherwise, number of centers
-  result(p)=DC(updated_data2,IDX_answer,SNN_K(p),'AutoPick',nc,'Distance',dist,'Ui',false);
+  result(p)=DC(updated_data2,IDX_answer,K(p),'AutoPick',nc,'Distance',dist,'Ui',false);
 end
-dashboard=table([result(:).ami]',[result(:).ari]',[result(:).fmi]',SNN_K','VariableNames',{'AMI','ARI','FMI','SNN_K'});
+dashboard=table([result(:).ami]',[result(:).ari]',[result(:).fmi]',K','VariableNames',{'AMI','ARI','FMI','K'});
 resultBest=dashboard(dashboard.ARI==max([result(:).ari]),:);
 Best_K2=resultBest(1,4);
 
